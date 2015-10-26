@@ -84,7 +84,7 @@
     NSString *homeDir = NSHomeDirectory();
     NSString *path = [homeDir stringByAppendingPathComponent:PlugPath];
     
-    NSArray<NSString*> *plugIns = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+    NSArray *plugIns = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
     
     for (NSString *name in plugIns) {
         if ([name hasSuffix:@"xcplugin"]) {
