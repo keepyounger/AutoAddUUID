@@ -11,7 +11,8 @@
 #define DefaultPathPrefix @"/Applications/Xcode.app/"
 #define PathSuffix @"Contents/Info.plist"
 
-#define PlugPath @"/Library/Application Support/Developer/Shared/Xcode/Plug-ins"
+#define PlugPath1 @"/Library/Application Support/Developer/Shared/Xcode/Plug-ins"
+#define PlugPath2 @"/Library/Developer/Xcode/Plug-ins"
 
 @interface ViewController ()<NSTextFieldDelegate>
 
@@ -82,12 +83,34 @@
     }
     
     NSString *homeDir = NSHomeDirectory();
-    NSString *path = [homeDir stringByAppendingPathComponent:PlugPath];
-    
+    NSString *path = [homeDir stringByAppendingPathComponent:PlugPath1];
+
     NSArray *plugIns = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
     
     for (NSString *name in plugIns) {
         if ([name hasSuffix:@"xcplugin"]) {
+            NSString *plugInPath = [[path stringByAppendingPathComponent:name] stringByAppendingPathComponent:PathSuffix];
+            
+            NSDictionary *plugInInfo = [NSDictionary dictionaryWithContentsOfFile:plugInPath];
+            
+            NSMutableDictionary *tempPlugInInfo = [NSMutableDictionary dictionaryWithDictionary:plugInInfo];
+            
+            NSMutableArray *UUIDs = [NSMutableArray arrayWithArray: tempPlugInInfo[@"DVTPlugInCompatibilityUUIDs"]];
+            
+            if (![UUIDs containsObject:xcodeUUID]) {
+                [UUIDs addObject:xcodeUUID];
+                [tempPlugInInfo setObject:UUIDs forKey:@"DVTPlugInCompatibilityUUIDs"];
+                [tempPlugInInfo writeToFile:plugInPath atomically:NO];
+            }
+            
+        }
+    }
+    
+    path = [homeDir stringByAppendingPathComponent:PlugPath2];
+    plugIns = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+    
+    for (NSString *name in plugIns) {
+        if ([name hasSuffix:@"ideplugin"]) {
             NSString *plugInPath = [[path stringByAppendingPathComponent:name] stringByAppendingPathComponent:PathSuffix];
             
             NSDictionary *plugInInfo = [NSDictionary dictionaryWithContentsOfFile:plugInPath];
