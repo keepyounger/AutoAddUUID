@@ -1,3 +1,24 @@
+Automatically update Xcode plugins when you update Xcode.
+
+## Why
+
+Whenever a new version of Xcode comes out, it requires all plugins to come out with a corresponding version, even if there is no actual code changed.
+
+AutoAddUUID automatically make your existing plgins work with the new version of Xcode, without having to wait for their authors to upgdate them.
+
+## Usage
+
+After you update your version of Xcode:
+
+1. Build and run AutoAddUUID.
+2. Select Xcode path.
+3. Click Done.
+4. Restart Xcode.
+
+All your plugins will be available for use with the new vesion of Xcode.
+
+---
+
 # 简介
 当你更新Xcode时，自动适配本地插件。<br/><br/>
 还在为每次Xcode更新，苦等三方插件更新发愁吗？<br/>
