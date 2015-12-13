@@ -51,6 +51,7 @@
 
 - (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor
 {
+    [self gesClick];
     return NO;
 }
 
